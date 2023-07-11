@@ -32,7 +32,7 @@ client.once(Events.ClientReady, (c) => {
         if (game.alertedAttacks.has(attack.attackId)) continue;
 
         channel.send(
-          `@${game.playerAlias}'s star ${attack.starName} is under attack by ${attack.ships} ships.`
+          `(<@${game.discordID}>) ${game.playerAlias}'s star ${attack.starName} is under attack by ${attack.ships} ships.`
         );
         game.alertedAttacks.add(attack.attackId);
       }
