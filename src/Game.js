@@ -16,29 +16,33 @@ class Game {
   }
 
   async update() {
-    const response = await axios.post(
-      "https://np.ironhelmet.com/api",
-      qs.stringify({
-        game_number: this.gameId,
-        code: this.apiKey,
-        api_version: "0.1",
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+    console.log("Updating", this.playerAlias);
+    try {
+      const response = await axios.post(
+        "https://np.ironhelmet.com/api",
+        qs.stringify({
+          game_number: this.gameId,
+          code: this.apiKey,
+          api_version: "0.1",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      const data = response.data;
+      for (const starId in data.scanning_data.stars) {
+        const starData = data.scanning_data.stars[starId];
+        this.stars[starId] = new Star(starData);
       }
-    );
-    const data = response.data;
 
-    for (const starId in data.scanning_data.stars) {
-      const starData = data.scanning_data.stars[starId];
-      this.stars[starId] = new Star(starData);
-    }
-
-    for (const fleetId in data.scanning_data.fleets) {
-      const fleetData = data.scanning_data.fleets[fleetId];
-      this.fleets[fleetId] = new Fleet(fleetData);
+      for (const fleetId in data.scanning_data.fleets) {
+        const fleetData = data.scanning_data.fleets[fleetId];
+        this.fleets[fleetId] = new Fleet(fleetData);
+      }
+    } catch (error) {
+      console.log("Error get API data", error);
     }
   }
 
