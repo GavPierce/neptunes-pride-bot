@@ -56,11 +56,15 @@ client.once(Events.ClientReady, (c) => {
       const attacks = game.checkForAttacks();
 
       for (const attack of attacks) {
+        console.log("Attack Found");
         //const channel = client.channels.cache.get("CHANNEL_ID");
         if (game.alertedAttacks.has(attack.attackId)) continue;
+        console.log("Sending Attack Message");
+
         channel.send(`<@${game.discordID}>`);
         channel.send({ embeds: [discordAlert(attack, game)] });
         game.alertedAttacks.add(attack.attackId);
+        console.log("Messages Sent this session:", game.alertedAttacks.size());
       }
     }
   };

@@ -29,7 +29,6 @@ function discordAlert(attackData, playerData) {
     ],
   };
 
-  console.log("Embded Build");
   return attackMessage;
 }
 
