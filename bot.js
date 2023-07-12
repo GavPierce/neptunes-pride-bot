@@ -64,7 +64,7 @@ client.once(Events.ClientReady, (c) => {
         channel.send(`<@${game.discordID}>`);
         channel.send({ embeds: [discordAlert(attack, game)] });
         game.alertedAttacks.add(attack.attackId);
-        console.log("Messages Sent this session:", game.alertedAttacks.size());
+        console.log("Messages Sent this session:", game.alertedAttacks.size);
       }
     }
   };
