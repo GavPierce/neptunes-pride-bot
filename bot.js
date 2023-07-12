@@ -59,7 +59,6 @@ client.once(Events.ClientReady, (c) => {
         //const channel = client.channels.cache.get("CHANNEL_ID");
         if (game.alertedAttacks.has(attack.attackId)) continue;
         channel.send(`<@${game.discordID}>`);
-
         channel.send({ embeds: [discordAlert(game, attack)] });
         game.alertedAttacks.add(attack.attackId);
       }
