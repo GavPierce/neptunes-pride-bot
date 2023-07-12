@@ -5,7 +5,9 @@ const schedule = require("node-schedule");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const playerConfigs = JSON.parse(process.env.PLAYER_CONFIGS);
+const playerConfigs = require("./players.json");
+
+const discordAlert = require("./discordMessages");
 
 const games = playerConfigs.map(
   (config) =>
@@ -14,11 +16,37 @@ const games = playerConfigs.map(
       config.apiKey,
       config.playerId,
       config.playerAlias,
-      config.discordID
+      config.discordID,
+      config.playerImg,
+      config.playerColor
     )
 );
 client.login(process.env.CLIENT_TOKEN); //login bot using token
-
+const dummyMessage = {
+  color: 16711680,
+  title: "Attack Incoming!",
+  url: "https://np.ironhelmet.com/game/5669830163955712",
+  description: `Your Star Death is under attack!`,
+  thumbnail: {
+    url: "https://np.ironhelmet.com/images/avatars/160/34.jpg",
+  },
+  fields: [
+    {
+      name: "Attack Information",
+      value: `9999 ships.`,
+    },
+    {
+      name: `Attacker: Darth Vader`,
+      value: `Weapons Level: 99`,
+      inline: true,
+    },
+    {
+      name: `Defender: Luke Skywalker`,
+      value: `Weapons Level: 0  `,
+      inline: true,
+    },
+  ],
+};
 client.once(Events.ClientReady, (c) => {
   console.log(`Logged in as ${client.user.tag}!`);
   const channel = client.channels.cache.get("1128142925298151505");
@@ -30,16 +58,14 @@ client.once(Events.ClientReady, (c) => {
       for (const attack of attacks) {
         //const channel = client.channels.cache.get("CHANNEL_ID");
         if (game.alertedAttacks.has(attack.attackId)) continue;
+        channel.send(`<@${game.discordID}>`);
 
-        channel.send(
-          `(<@${game.discordID}>) ${game.playerAlias}'s star ${attack.starName} is under attack by ${attack.ships} ships.`
-        );
+        channel.send({ embeds: [discordAlert(game, attack)] });
         game.alertedAttacks.add(attack.attackId);
       }
     }
   };
   checkAllForAttacks();
-
   const job = schedule.scheduleJob("44 * * * *", function () {
     checkAllForAttacks();
   });

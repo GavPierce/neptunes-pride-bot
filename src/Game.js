@@ -2,17 +2,29 @@ const axios = require("axios");
 const qs = require("qs");
 const Fleet = require("./Fleet");
 const Star = require("./Star");
+const Player = require("./Player");
 
 class Game {
-  constructor(gameId, apiKey, playerId, playerAlias, discordID) {
+  constructor(
+    gameId,
+    apiKey,
+    playerId,
+    playerAlias,
+    discordID,
+    playerImg,
+    playerColor
+  ) {
     this.gameId = gameId;
     this.apiKey = apiKey;
     this.playerId = playerId;
     this.playerAlias = playerAlias;
     this.discordID = discordID;
+    this.playerImg = playerImg;
+    this.playerColor = playerColor;
     this.alertedAttacks = new Set();
     this.stars = {};
     this.fleets = {};
+    this.players = {};
   }
 
   async update() {
@@ -41,6 +53,11 @@ class Game {
         const fleetData = data.scanning_data.fleets[fleetId];
         this.fleets[fleetId] = new Fleet(fleetData);
       }
+
+      for (const playerId in data.scanning_data.players) {
+        const playerData = data.scanning_data.players[playerId];
+        this.players[playerId] = new Player(playerData);
+      }
     } catch (error) {
       console.log("Error get API data", error);
     }
@@ -64,6 +81,11 @@ class Game {
               starName: this.stars[targetStarId].n,
               ships: fleet.st,
               attackId: fleetId,
+              attackerAlias: this.players[fleet.puid].alias,
+              attackerWeapons: this.players[fleet.puid].tech.weapons.level,
+              attackShips: this.players[fleet.puid].total_strength,
+              defenderWeapons: this.players[this.playerId].tech.weapons.level,
+              defenderShips: this.players[this.playerId].total_strength,
               //eta: fleet.getEta(this.stars[targetStarId]),
             });
           }

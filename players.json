@@ -1,0 +1,38 @@
+[
+  {
+    "gameId": "5669830163955712",
+    "apiKey": "WrGFD3",
+    "playerId": 61,
+    "playerAlias": "Traxian lll",
+    "discordID": "368967685826019329",
+    "playerImg": "https://np.ironhelmet.com/images/avatars/160/34.jpg",
+    "playerColor": "0xFF0000"
+  },
+  {
+    "gameId": "5669830163955712",
+    "apiKey": "NSCLhY",
+    "playerId": 41,
+    "playerAlias": "Celestial Sea Imperium",
+    "discordID": "477172033986232331",
+    "playerImg": "https://np.ironhelmet.com/images/avatars/160/18.jpg",
+    "playerColor": "0x00FFFF"
+  },
+  {
+    "gameId": "5669830163955712",
+    "apiKey": "fbYtS7",
+    "playerId": 34,
+    "playerAlias": "Mrs Doubtfire ",
+    "discordID": "5669830163955712",
+    "playerImg": "https://np.ironhelmet.com/images/avatars/160/50.jpg",
+    "playerColor": "0x008000"
+  },
+  {
+    "gameId": "5669830163955712",
+    "apiKey": "fbYtS7",
+    "playerId": 53,
+    "playerAlias": "Darth Jarjar",
+    "discordID": "387514054190825473",
+    "playerImg": "https://np.ironhelmet.com/images/avatars/160/50.jpg",
+    "playerColor": "0xFF0000"
+  }
+]
