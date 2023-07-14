@@ -5,10 +5,16 @@ class Fleet {
   }
 
   getEta(targetStar) {
-    // You'll need to implement this function based on the game's mechanics
-    // This is a placeholder implementation
-    return 0;
+    // Calculate the distance between the fleet coordinates, x y, and the target star coordinates, x y
+    const distance = Math.sqrt(
+      Math.pow(this.x - targetStar.x, 2) + Math.pow(this.y - targetStar.y, 2)
+    );
+
+    // Return the distance divided by the fleet speed but converted to minutes and hours
+
+    return `${Math.floor(distance / this.fleetSpeed)}h ${Math.floor(
+      distance / this.fleetSpeed / 60
+    )}m `;
   }
 }
-
 module.exports = Fleet;

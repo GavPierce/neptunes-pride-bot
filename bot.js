@@ -50,25 +50,45 @@ const dummyMessage = {
 client.once(Events.ClientReady, (c) => {
   console.log(`Logged in as ${client.user.tag}!`);
   const channel = client.channels.cache.get("1128142925298151505");
+
   const checkAllForAttacks = async () => {
     for (const game of games) {
       await game.update();
       const attacks = game.checkForAttacks();
+      const outGoingAttacks = game.checkForOutgoingAttacks();
+
+      for (const attack of outGoingAttacks) {
+        console.log("Outgoing Attack Found");
+
+        if (game.alertedAttacks.has(attack.attackId)) continue;
+
+        console.log("Sending Outgoing Attack Message");
+
+        channel.send(`<@${game.discordID}>`);
+        channel.send({
+          embeds: [discordAlert.outGoingAttackMessage(attack, game)],
+        });
+        game.alertedAttacks.add(attack.attackId);
+        console.log("Messages Sent this session:", game.alertedAttacks.size);
+      }
 
       for (const attack of attacks) {
         console.log("Attack Found");
-        //const channel = client.channels.cache.get("CHANNEL_ID");
+
         if (game.alertedAttacks.has(attack.attackId)) continue;
+
         console.log("Sending Attack Message");
 
         channel.send(`<@${game.discordID}>`);
-        channel.send({ embeds: [discordAlert(attack, game)] });
+        channel.send({ embeds: [discordAlert.attackMessage(attack, game)] });
         game.alertedAttacks.add(attack.attackId);
         console.log("Messages Sent this session:", game.alertedAttacks.size);
       }
     }
   };
+
   checkAllForAttacks();
+
   const job = schedule.scheduleJob("44 * * * *", function () {
     checkAllForAttacks();
   });
