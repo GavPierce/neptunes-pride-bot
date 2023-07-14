@@ -3,8 +3,15 @@ const Game = require("./src/Game");
 require("dotenv").config();
 const schedule = require("node-schedule");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
+const client = new Client({
+  intents: [
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
 const playerConfigs = require("./players.json");
 
 const discordAlert = require("./discordMessages");
@@ -55,22 +62,6 @@ client.once(Events.ClientReady, (c) => {
     for (const game of games) {
       await game.update();
       const attacks = game.checkForAttacks();
-      const outGoingAttacks = game.checkForOutgoingAttacks();
-
-      for (const attack of outGoingAttacks) {
-        console.log("Outgoing Attack Found");
-
-        if (game.alertedAttacks.has(attack.attackId)) continue;
-
-        console.log("Sending Outgoing Attack Message");
-
-        channel.send(`<@${game.discordID}>`);
-        channel.send({
-          embeds: [discordAlert.outGoingAttackMessage(attack, game)],
-        });
-        game.alertedAttacks.add(attack.attackId);
-        console.log("Messages Sent this session:", game.alertedAttacks.size);
-      }
 
       for (const attack of attacks) {
         console.log("Attack Found");
@@ -90,4 +81,34 @@ client.once(Events.ClientReady, (c) => {
   const job = schedule.scheduleJob("* * * * *", function () {
     checkAllForAttacks();
   });
+});
+
+client.on("messageCreate", async (message) => {
+  console.log("Message Created!");
+  const channel = client.channels.cache.get("1128142925298151505");
+  if (message.content.includes("Deep Thought")) {
+    channel.send(`The answer to life is 42. Any more questions?`);
+  }
+  if (message.content.startsWith("!outgoing")) {
+    channel.send(`Ok I am getting all of our outgoing attacks!`);
+    for (const game of games) {
+      await game.update();
+      const outGoingAttacks = game.checkForOutgoingAttacks();
+
+      for (const attack of outGoingAttacks) {
+        console.log("Outgoing Attack Found");
+
+        if (game.alertedAttacks.has(attack.attackId)) continue;
+
+        console.log("Sending Outgoing Attack Message");
+
+        channel.send(`<@${game.discordID}>`);
+        channel.send({
+          embeds: [discordAlert.outGoingAttackMessage(attack, game)],
+        });
+        game.alertedAttacks.add(attack.attackId);
+        console.log("Messages Sent this session:", game.alertedAttacks.size);
+      }
+    }
+  }
 });

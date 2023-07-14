@@ -77,6 +77,7 @@ class Game {
       if (fleet.puid !== this.playerId) {
         for (const order of fleet.o) {
           const targetStarId = order[1];
+          const starOwner = this.stars[targetStarId].puid;
 
           if (
             targetStarId in this.stars &&
@@ -87,11 +88,16 @@ class Game {
               ships: fleet.st,
               attackId: fleetId,
               attackerAlias: this.players[fleet.puid].alias,
+              attackerAvatar: `https://np.ironhelmet.com/images/avatars/160/${
+                this.players[fleet.puid].avatar
+              }.jpg`,
               attackerWeapons: this.players[fleet.puid].tech.weapons.level,
               attackShips: this.players[fleet.puid].total_strength,
-              defenderWeapons: this.players[this.playerId].tech.weapons.level,
-              defenderShips: this.players[this.playerId].total_strength,
-              //eta: fleet.getEta(this.stars[targetStarId]),
+              defenderAlias: this.players[starOwner].alias,
+              defenderAvatar: `https://np.ironhelmet.com/images/avatars/160/${this.players[starOwner].avatar}.jpg`,
+              defenderWeapons: this.players[starOwner].tech.weapons.level,
+              defenderShips: this.players[starOwner].total_strength,
+              eta: fleet.getEta(this.stars[targetStarId]),
             });
           }
         }
