@@ -28,11 +28,20 @@
   },
   {
     "gameId": "5669830163955712",
-    "apiKey": "fbYtS7",
+    "apiKey": "jdWulI",
     "playerId": 53,
     "playerAlias": "Darth Jarjar",
     "discordID": "387514054190825473",
     "playerImg": "https://np.ironhelmet.com/images/avatars/160/50.jpg",
     "playerColor": "0xFF0000"
+  },
+  {
+    "gameId": "5669830163955712",
+    "apiKey": "d51Dao",
+    "playerId": 47,
+    "playerAlias": "Alpha Centauri",
+    "discordID": "",
+    "playerImg": "https://np.ironhelmet.com/images/avatars/160/36.jpg",
+    "playerColor": "0x800080"
   }
 ]
