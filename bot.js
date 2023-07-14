@@ -87,12 +87,7 @@ client.once(Events.ClientReady, (c) => {
     }
   };
 
-  checkAllForAttacks();
-
-  const job = schedule.scheduleJob("44 * * * *", function () {
-    checkAllForAttacks();
-  });
-  const job2 = schedule.scheduleJob("50 * * * *", function () {
+  const job = schedule.scheduleJob("* * * * *", function () {
     checkAllForAttacks();
   });
 });
