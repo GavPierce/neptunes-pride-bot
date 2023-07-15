@@ -66,6 +66,8 @@ client.once(Events.ClientReady, (c) => {
 });
 
 client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+
   const channel = message.channel;
   if (message.content.includes("Deep Thought")) {
     message.channel.sendTyping();
