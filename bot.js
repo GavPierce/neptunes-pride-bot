@@ -81,7 +81,17 @@ client.on("messageCreate", async (message) => {
           },
         ],
       });
-      channel.send(completion.data.choices[0].message);
+
+      // make sure the message is less then 2000 characters and if it is more split it into multiple messages
+      if (completion.data.choices[0].message.length > 2000) {
+        const messages =
+          completion.data.choices[0].message.match(/[\s\S]{1,2000}/g);
+        for (const message of messages) {
+          channel.send(message);
+        }
+      } else {
+        channel.send(completion.data.choices[0].message);
+      }
     } catch (error) {
       console.log("Error with CHATGPT", error);
     }
