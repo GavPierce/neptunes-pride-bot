@@ -69,17 +69,20 @@ client.on("messageCreate", async (message) => {
   const channel = message.channel;
   if (message.content.includes("Deep Thought")) {
     message.channel.sendTyping();
-    const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "user",
-          content: `Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. ${message.content}`,
-        },
-      ],
-    });
-
-    channel.send(completion.data.choices[0].message);
+    try {
+      const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. ${message.content}`,
+          },
+        ],
+      });
+      channel.send(completion.data.choices[0].message);
+    } catch (error) {
+      console.log("Error with CHATGPT", error);
+    }
   }
   if (message.content.startsWith("!outgoing")) {
     channel.send(`Ok I am getting all of our outgoing attacks!`);
