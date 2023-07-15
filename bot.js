@@ -1,4 +1,10 @@
 const { Client, Events, GatewayIntentBits } = require("discord.js");
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.CHATGPT_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
 const Game = require("./src/Game");
 require("dotenv").config();
 const schedule = require("node-schedule");
@@ -60,10 +66,20 @@ client.once(Events.ClientReady, (c) => {
 });
 
 client.on("messageCreate", async (message) => {
-  console.log("Message Created!");
-  const channel = client.channels.cache.get("1128142925298151505");
+  const channel = message.channel;
   if (message.content.includes("Deep Thought")) {
-    channel.send(`The answer to life is 42. Any more questions?`);
+    message.channel.sendTyping();
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: `Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. ${message.content}`,
+        },
+      ],
+    });
+
+    channel.send(completion.data.choices[0].message);
   }
   if (message.content.startsWith("!outgoing")) {
     channel.send(`Ok I am getting all of our outgoing attacks!`);
