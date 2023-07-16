@@ -141,7 +141,7 @@ client.on("messageCreate", async (message) => {
       // convert the visableStars to JSON
       visableStars = JSON.stringify(filteredStars);
       // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
-      if (visableStars.length > 4000) {
+      if (visableStars.length > 5000) {
         channel.send(
           "The report info for this player is too big my by computer mind." +
             visableStars.length
