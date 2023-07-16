@@ -102,10 +102,21 @@ client.on("messageCreate", async (message) => {
   }
 
   if (message.content.startsWith("!report")) {
-    // get user name from message.content, it is right after the !report command. But do not include the !report command in the user name
-    const userName = message.content.slice(8);
-    console.log(userName);
-    message.channel.send(userName);
+    // get the id from the message.content. I will look like this <@368967685826019329> but remove the <@ and > so you just have the id. IT will be right after !report
+    const discordID = message.content
+      .replace("!report", "")
+      .replace("<@", "")
+      .replace(">", "")
+      .trim();
+    // find the game that matches the discordID
+    const game = games.find((game) => game.discordID === discordID);
+
+    if (!game) {
+      channel.send("No user found for that name");
+      return;
+    } else {
+      channel.send(`Ok I am getting all of the info for ${game.playerAlias}!`);
+    }
   }
   if (message.content.startsWith("!outgoing")) {
     channel.send(`Ok I am getting all of our outgoing attacks!`);
