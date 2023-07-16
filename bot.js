@@ -76,8 +76,12 @@ client.on("messageCreate", async (message) => {
         model: "gpt-3.5-turbo",
         messages: [
           {
+            role: "system",
+            content: `Keep it short. Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy.`,
+          },
+          {
             role: "user",
-            content: `Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. ${message.content}`,
+            content: `${message.content}`,
           },
         ],
       });
@@ -95,6 +99,12 @@ client.on("messageCreate", async (message) => {
     } catch (error) {
       console.log("Error with CHATGPT", error);
     }
+  }
+
+  if (message.content.startsWith("!report")) {
+    // get user name from message.content, it is right after the !report command. But do not include the !report command in the user name
+    const userName = message.content.slice(8);
+    message.channel.send(userName);
   }
   if (message.content.startsWith("!outgoing")) {
     channel.send(`Ok I am getting all of our outgoing attacks!`);
