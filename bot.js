@@ -158,14 +158,14 @@ client.on("messageCreate", async (message) => {
           },
           {
             role: "user",
-            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Give me a short report of this players star stength. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
+            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Stars with piud of ${game.playerId} belong to the player. All other stars do not. Give me a short report of this players star stength. Listing in bullet points all the stars they own and their levels. Give the stars a emoji ranking depending on their length. Then list the other stars. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
           },
         ],
       });
 
       let chatGPTMessage = completion.data.choices[0].message;
 
-      console.log(chatGPTMessage.length);
+      console.log(typeof chatGPTMessage, chatGPTMessage.length);
 
       if (chatGPTMessage.length > 1800) {
         let chunkedMessage = splitString(chatGPTMessage);
