@@ -64,14 +64,33 @@ client.once(Events.ClientReady, (c) => {
     checkAllForAttacks();
   });
 });
+// keep track of memory for the last 10 messages from user and add it to chat gpt context
+const chatGPTContext = [];
 
 client.on("messageCreate", async (message) => {
-  if (message.author.bot) return;
+  if (message.author.bot) {
+    let botContext = {
+      role: "assistant",
+      content: message.content,
+    };
+    chatGPTContext.push(botContext);
+    return;
+  }
 
   const channel = message.channel;
   if (message.content.includes("Deep Thought")) {
     message.channel.sendTyping();
     try {
+      // add the last 10 messages to the context
+      let userContext = {
+        role: "user",
+        content: message.content,
+      };
+      chatGPTContext.push(userContext);
+
+      if (chatGPTContext.length > 10) {
+        chatGPTContext.shift();
+      }
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
@@ -79,10 +98,7 @@ client.on("messageCreate", async (message) => {
             role: "system",
             content: `Keep it short. Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. Be slightly condescending.`,
           },
-          {
-            role: "user",
-            content: `${message.content}`,
-          },
+          ...chatGPTContext,
         ],
       });
 
