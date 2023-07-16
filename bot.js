@@ -104,6 +104,7 @@ client.on("messageCreate", async (message) => {
   if (message.content.startsWith("!report")) {
     // get user name from message.content, it is right after the !report command. But do not include the !report command in the user name
     const userName = message.content.slice(8);
+    console.log(userName);
     message.channel.send(userName);
   }
   if (message.content.startsWith("!outgoing")) {
