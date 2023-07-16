@@ -131,8 +131,9 @@ client.on("messageCreate", async (message) => {
     } else {
       // convert this game instance to JSON
       const gameJSON = JSON.stringify(game);
+      const visableStars = game.stars.filter((star) => star.st);
       // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
-      if (gameJSON.length > 2000) {
+      if (visableStars.length > 4000) {
         channel.send(
           "The report info for this player is too big my by computer mind." +
             gameJSON.length
@@ -148,7 +149,7 @@ client.on("messageCreate", async (message) => {
           },
           {
             role: "user",
-            content: `Here is a JSON of Player data for the game Neptunes Pride. Give me a report of this player. ${gameJSON} `,
+            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Give me a report of this player. ${visableStars} `,
           },
         ],
       });
