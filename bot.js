@@ -167,7 +167,7 @@ client.on("messageCreate", async (message) => {
 
       console.log(chatGPTMessage.length);
       if (chatGPTMessage.length > 1800) {
-        let chunkedMessage = splitJSONData(chatGPTMessage);
+        let chunkedMessage = splitString(chatGPTMessage);
         chunkedMessage.forEach((chunk) => {
           channel.send(chunk);
         });
@@ -198,30 +198,19 @@ client.on("messageCreate", async (message) => {
     }
   }
 });
-function splitJSONData(jsonData, maxChars = 1800) {
-  // Convert the JSON data to a formatted JSON string with indentation
-  const formattedJson = JSON.stringify(jsonData, null, 4);
+function splitString(string) {
+  const chunks = [];
 
-  // Check if the formatted JSON string exceeds the maximum character limit
-  if (formattedJson.length <= maxChars) {
-    return [formattedJson];
-  }
+  if (string.length > 1900) {
+    let start = 0;
 
-  // Break down the JSON string into smaller chunks
-  const chunkedJson = [];
-  let currentChunk = "";
-  for (let i = 0; i < formattedJson.length; i++) {
-    currentChunk += formattedJson[i];
-    if (currentChunk.length >= maxChars) {
-      chunkedJson.push(currentChunk);
-      currentChunk = "";
+    while (start < string.length) {
+      chunks.push(string.substring(start, start + 1900));
+      start += 1900;
     }
+  } else {
+    chunks.push(string);
   }
 
-  // Append the remaining chunk if any
-  if (currentChunk) {
-    chunkedJson.push(currentChunk);
-  }
-
-  return chunkedJson;
+  return chunks;
 }
