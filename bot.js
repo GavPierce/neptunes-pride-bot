@@ -166,12 +166,15 @@ client.on("messageCreate", async (message) => {
       let chatGPTMessage = completion.data.choices[0].message;
 
       console.log(chatGPTMessage.length);
+
       if (chatGPTMessage.length > 1800) {
         let chunkedMessage = splitString(chatGPTMessage);
         chunkedMessage.forEach((chunk) => {
+          console.log(chunk.length);
           channel.send(chunk);
         });
       } else {
+        console.log("Not greater then 1800");
         channel.send(chatGPTMessage);
       }
     }
