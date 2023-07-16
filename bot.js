@@ -130,8 +130,13 @@ client.on("messageCreate", async (message) => {
       return;
     } else {
       // convert this game instance to JSON
-      const gameJSON = JSON.stringify(game);
-      const visableStars = game.stars.filter((star) => star.st);
+      let stars = game.stars;
+      // filter the Object stars to only the ones that are visable
+      let visableStars = Object.values(stars).filter(
+        (star) => star.st !== null
+      );
+      // convert the visableStars to JSON
+      visableStars = JSON.stringify(visableStars);
       // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
       if (visableStars.length > 4000) {
         channel.send(
