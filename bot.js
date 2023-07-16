@@ -118,20 +118,49 @@ client.on("messageCreate", async (message) => {
   }
 
   if (message.content.startsWith("!report")) {
-    // get the id from the message.content. I will look like this <@368967685826019329> but remove the <@ and > so you just have the id. IT will be right after !report
     const discordID = message.content
       .replace("!report", "")
       .replace("<@", "")
       .replace(">", "")
       .trim();
-    // find the game that matches the discordID
     const game = games.find((game) => game.discordID === discordID);
 
     if (!game) {
       channel.send("No user found for that name");
       return;
     } else {
-      channel.send(`Ok I am getting all of the info for ${game.playerAlias}!`);
+      // convert this game instance to JSON
+      const gameJSON = JSON.stringify(game);
+      // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
+      if (gameJSON.length > 2000) {
+        channel.send(
+          "The report info for this player is too big my by computer mind."
+        );
+        return;
+      }
+      const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: `Keep it short. Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. Be slightly condescending. `,
+          },
+          {
+            role: "user",
+            content: `Here is a JSON of Player data for the game Neptunes Pride. Give me a report of this player. ${gameJSON} `,
+          },
+        ],
+      });
+
+      let chatGPTMessage = completion.data.choices[0].message;
+      if (chatGPTMessage.length > 2000) {
+        const messages = chatGPTMessage.match(/[\s\S]{1,2000}/g);
+        for (const message of messages) {
+          channel.send(message);
+        }
+      } else {
+        channel.send(chatGPTMessage);
+      }
     }
   }
   if (message.content.startsWith("!outgoing")) {
