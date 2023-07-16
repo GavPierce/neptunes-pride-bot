@@ -164,6 +164,8 @@ client.on("messageCreate", async (message) => {
       });
 
       let chatGPTMessage = completion.data.choices[0].message;
+
+      console.log(chatGPTMessage.length);
       if (chatGPTMessage.length > 1800) {
         let chunkedMessage = splitJSONData(chatGPTMessage);
         chunkedMessage.forEach((chunk) => {
