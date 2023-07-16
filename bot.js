@@ -157,14 +157,14 @@ client.on("messageCreate", async (message) => {
           },
           {
             role: "user",
-            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Give me a report of this player. ${visableStars} `,
+            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Give me a short report of this players star stength. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
           },
         ],
       });
 
       let chatGPTMessage = completion.data.choices[0].message;
       if (chatGPTMessage.length > 2000) {
-        const messages = chatGPTMessage.match(/[\s\S]{1,2000}/g);
+        const messages = chatGPTMessage.match(/[\s\S]{1,1800}/g);
         for (const message of messages) {
           channel.send(message);
         }
