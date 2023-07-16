@@ -77,7 +77,7 @@ client.on("messageCreate", async (message) => {
         messages: [
           {
             role: "system",
-            content: `Keep it short. Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy.`,
+            content: `Keep it short. Pretend to be Deep Thought from Hitchhiker's Guide to the Galaxy. Be slightly condescending.`,
           },
           {
             role: "user",
