@@ -134,7 +134,8 @@ client.on("messageCreate", async (message) => {
       // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
       if (gameJSON.length > 2000) {
         channel.send(
-          "The report info for this player is too big my by computer mind."
+          "The report info for this player is too big my by computer mind." +
+            gameJSON.length
         );
         return;
       }
