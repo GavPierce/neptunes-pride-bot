@@ -141,7 +141,7 @@ client.on("messageCreate", async (message) => {
       if (visableStars.length > 4000) {
         channel.send(
           "The report info for this player is too big my by computer mind." +
-            gameJSON.length
+            visableStars.length
         );
         return;
       }
