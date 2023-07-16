@@ -124,6 +124,7 @@ client.on("messageCreate", async (message) => {
       .replace(">", "")
       .trim();
     const game = games.find((game) => game.discordID === discordID);
+    channel.sendTyping();
 
     if (!game) {
       channel.send("No user found for that name");
@@ -163,8 +164,8 @@ client.on("messageCreate", async (message) => {
       });
 
       let chatGPTMessage = completion.data.choices[0].message;
-      if (chatGPTMessage.length > 2000) {
-        const messages = chatGPTMessage.match(/[\s\S]{1,1800}/g);
+      if (chatGPTMessage.length > 1600) {
+        const messages = chatGPTMessage.match(/[\s\S]{1,1600}/g);
         for (const message of messages) {
           channel.send(message);
         }
