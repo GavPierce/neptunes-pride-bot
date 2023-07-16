@@ -164,11 +164,11 @@ client.on("messageCreate", async (message) => {
       });
 
       let chatGPTMessage = completion.data.choices[0].message;
-      if (chatGPTMessage.length > 1600) {
-        const messages = chatGPTMessage.match(/[\s\S]{1,1600}/g);
-        for (const message of messages) {
-          channel.send(message);
-        }
+      if (chatGPTMessage.length > 1800) {
+        let chunkedMessage = splitJSONData(chatGPTMessage);
+        chunkedMessage.forEach((chunk) => {
+          channel.send(chunk);
+        });
       } else {
         channel.send(chatGPTMessage);
       }
@@ -196,3 +196,30 @@ client.on("messageCreate", async (message) => {
     }
   }
 });
+function splitJSONData(jsonData, maxChars = 1800) {
+  // Convert the JSON data to a formatted JSON string with indentation
+  const formattedJson = JSON.stringify(jsonData, null, 4);
+
+  // Check if the formatted JSON string exceeds the maximum character limit
+  if (formattedJson.length <= maxChars) {
+    return [formattedJson];
+  }
+
+  // Break down the JSON string into smaller chunks
+  const chunkedJson = [];
+  let currentChunk = "";
+  for (let i = 0; i < formattedJson.length; i++) {
+    currentChunk += formattedJson[i];
+    if (currentChunk.length >= maxChars) {
+      chunkedJson.push(currentChunk);
+      currentChunk = "";
+    }
+  }
+
+  // Append the remaining chunk if any
+  if (currentChunk) {
+    chunkedJson.push(currentChunk);
+  }
+
+  return chunkedJson;
+}
