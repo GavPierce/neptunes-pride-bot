@@ -161,8 +161,8 @@ client.on("messageCreate", async (message) => {
             role: "user",
             content: `Here is a JSON of all the Stars owned by the player ${game.playerAlias}. 
             This is what each star object keys mean: e = economy level. ga = the presence of a warpgate, 0 no gate 1 gate. i = industry level. n = name. st= Ship Count. p = position. r = resources. s = science level. x = x coordinate. y = y coordinate. 
-            List each star in a bullet point. List by star value. And show the resources. Science, economy and industry on each bullet point.
-            Give each star an emoji based on the star value and the science, industry and econonmy levels. For example, give the higher ones diamond and the lower ones poop emoji. Do not use the star emoji.
+            List each star in a bullet point. List by resources, highest to lowest. And show the resources. Science, economy and industry and ships on each bullet point.
+            If the resources are greater then 50, give diamond emoji. If they are less then 50 and greater then 30 give gold emoji. If they are less then 30 and greater then 15 give wood emoji. If they are less then 15 give poop emoji.  Do not say anything else other then the bullet points. Bold the star name. 
              here is the JSON file. ${visableStars}`,
           },
         ],
