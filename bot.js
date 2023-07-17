@@ -159,12 +159,12 @@ client.on("messageCreate", async (message) => {
           },
           {
             role: "user",
-            content: `Here is a JSON of all the Stars owned by the player ${game.playerAlias}. Listing in bullet points all the stars they own and their levels, including their ship strength. Give the stars an emoji ranking depending on their length, for example stars with low levels get a poop emoji. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
+            content: `Here is a JSON of all the Stars owned by the player ${game.playerAlias}. Listing in bullet points all the stars they own and their levels, including their ship strength. Give the stars an emoji ranking depending on total value. Value is derived from the sum of Science, Industry and Economy. List them highest to lowest. Give the highest a diamond emoji and the lowest a poop emoji. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
           },
         ],
       });
 
-      let chatGPTMessage = completion.data.choices[0].message;
+      let chatGPTMessage = completion.data.choices[0].message.content;
 
       console.log(typeof chatGPTMessage, chatGPTMessage.length);
 
