@@ -132,13 +132,14 @@ client.on("messageCreate", async (message) => {
     } else {
       // convert this game instance to JSON
       let stars = game.stars;
-      // filter the Object stars to only the ones that are visable
-      const filteredStars = Object.entries(stars)
-        .filter(([key, value]) => value.hasOwnProperty("st"))
-        .reduce((obj, [key, value]) => {
-          obj[key] = value;
+      // filter the Object stars to only the ones that have the puid matches the game.playerId
+      let filteredStars = Object.keys(stars)
+        .filter((key) => stars[key].puid === game.playerId)
+        .reduce((obj, key) => {
+          obj[key] = stars[key];
           return obj;
         }, {});
+
       // convert the visableStars to JSON
       visableStars = JSON.stringify(filteredStars);
       // make sure the gameJSON is less then 2000 characters and if it is more split it into multiple messages
@@ -158,7 +159,7 @@ client.on("messageCreate", async (message) => {
           },
           {
             role: "user",
-            content: `Here is a JSON of all the Stars Visible to the player ${game.playerAlias}. Stars with piud of ${game.playerId} belong to the player. All other stars do not. Give me a short report of this players star stength. Listing in bullet points all the stars they own and their levels. Give the stars a emoji ranking depending on their length. Then list the other stars. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
+            content: `Here is a JSON of all the Stars owned by the player ${game.playerAlias}. Listing in bullet points all the stars they own and their levels, including their ship strength. Give the stars an emoji ranking depending on their length, for example stars with low levels get a poop emoji. e means the level of economy on the star. i is industry. st is ships on the star. and s is the level of science. ${visableStars} `,
           },
         ],
       });
