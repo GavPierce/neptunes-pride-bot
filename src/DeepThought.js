@@ -60,6 +60,7 @@ class DeepThought {
           {
             name: "checkForAttacks",
             description: "Check for all incoming attacks",
+            parameters: {},
           },
         ];
 
@@ -75,19 +76,20 @@ class DeepThought {
 
           // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
           let responseMessage = response.data.choices[0].message.content;
-          let functionCall = response.data.choices[0].message.function_call;
-          message.channel.send(responseMessage);
-
-          if (functionCall) {
+          let finishReason = response.data.choices[0].finish_reason;
+          if (finishReason === "stop") {
+            message.channel.send(responseMessage);
+          } else if (finishReason === "function_call") {
             let availableFunctions = {
-              checkForAttacks: this.checkForAttacks(),
+              checkForAttacks: this.checkForAttacks,
             };
+            const fnName = response.data.choices[0].message.function_call.name;
+            const functionToCall = availableFunctions[fnName];
 
-            let functionName = functionCall.name;
-            availableFunctions[functionName];
+            functionToCall();
           }
         } catch {
-          console.log("Error");
+          console.log("Error", error);
         }
       }
     });
