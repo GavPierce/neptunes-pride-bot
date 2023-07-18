@@ -73,16 +73,16 @@ class DeepThought {
         });
 
         // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
-        let responseMessage = response["choices"][0]["message"];
-
+        let responseMessage = response.data.choices[0].message.content;
+        let functionCall = response.data.choices[0].message.function_call;
         message.channel.send(responseMessage);
 
-        if (responseMessage["function_call"]) {
+        if (functionCall) {
           let availableFunctions = {
             checkForAttacks: this.checkForAttacks(),
           };
 
-          let functionName = responseMessage["function_call"]["name"];
+          let functionName = functionCall.name;
           availableFunctions[functionName];
         }
       }
