@@ -25,15 +25,15 @@ class DeepThought {
   }
 
   init() {
-    client.login(process.env.CLIENT_TOKEN); // login bot using our discord bot token
+    this.discordClient.login(process.env.CLIENT_TOKEN); // login bot using our discord bot token
 
     this.eventHandlers();
   }
   eventHandlers() {
     // watch for when it logins
-    client.once(Events.ClientReady, (c) => {
+    this.discordClient.once(Events.ClientReady, (c) => {
       console.log(
-        `Logged in as ${client.user.tag}! on ${client.guilds.cache.size} servers`
+        `Logged in as ${this.discordClient.user.tag}! on ${this.discordClient.guilds.cache.size} servers`
       );
 
       // schedule a job to run every 5 minutes looking for attacks
@@ -43,7 +43,7 @@ class DeepThought {
     });
 
     //watch for when a message is sent
-    client.on(Events.MessageCreate, async (message) => {
+    this.discordClient.on(Events.MessageCreate, async (message) => {
       if (message.author.bot) {
         let botContext = {
           role: "assistant",
@@ -89,7 +89,9 @@ class DeepThought {
   }
   async checkForAttacks() {
     for (const game of this.games) {
-      const channel = client.channels.cache.get(game.discordChannel);
+      const channel = this.discordClient.channels.cache.get(
+        game.discordChannel
+      );
 
       await game.update();
       const attacks = game.checkForAttacks();
