@@ -24,12 +24,12 @@ class DeepThought {
     ];
   }
 
-  init() {
+  async init() {
     this.discordClient.login(process.env.CLIENT_TOKEN); // login bot using our discord bot token
 
-    this.eventHandlers();
+    await this.eventHandlers();
   }
-  eventHandlers() {
+  async eventHandlers() {
     // watch for when it logins
     this.discordClient.once(Events.ClientReady, (c) => {
       console.log(
@@ -101,6 +101,7 @@ class DeepThought {
     });
   }
   checkForAttacks() {
+    // console log the players array length
     console.log(this.players.length);
     // for (const player of this.players) {
     //   const channel = this.discordClient.channels.cache.get(

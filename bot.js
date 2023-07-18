@@ -22,8 +22,8 @@ const games = playerConfigs.map(
     )
 );
 
-let DeepThoughtBot = new DeepThought(games, openai);
-DeepThoughtBot.init();
+let deepThoughtBot = new DeepThought(games, openai);
+await deepThoughtBot.init();
 // client.on("messageCreate", async (message) => {
 
 //   const channel = message.channel;
