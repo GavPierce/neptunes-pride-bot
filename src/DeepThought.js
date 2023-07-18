@@ -109,7 +109,6 @@ class DeepThought {
       const channel = this.discordClient.channels.cache.get(
         player.discordChannel
       );
-      channel.send(`Checking ${player.playerAlias} for attacks`);
       await player.update();
       const attacks = player.checkForAttacks();
 
