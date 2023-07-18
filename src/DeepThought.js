@@ -54,6 +54,7 @@ class DeepThought {
       }
 
       if (message.content.includes("Deep Thought")) {
+        message.channel.sendTyping();
         // how crazy is this, we can now define functions we want chatgpt to call
         let functions = [
           {
@@ -64,7 +65,7 @@ class DeepThought {
 
         this.memory.push({ role: "user", content: message.content });
 
-        let response = await openai.ChatCompletion.create({
+        let response = await this.openAI.ChatCompletion.create({
           model: "gpt-3.5-turbo",
           messages: this.memory,
           functions: functions,
