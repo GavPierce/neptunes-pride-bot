@@ -65,25 +65,29 @@ class DeepThought {
 
         this.memory.push({ role: "user", content: message.content });
 
-        let response = await this.openAI.createChatCompletion({
-          model: "gpt-3.5-turbo",
-          messages: this.memory,
-          functions: functions,
-          function_call: "auto",
-        });
+        try {
+          let response = await this.openAI.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: this.memory,
+            functions: functions,
+            function_call: "auto",
+          });
 
-        // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
-        let responseMessage = response.data.choices[0].message.content;
-        let functionCall = response.data.choices[0].message.function_call;
-        message.channel.send(responseMessage);
+          // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
+          let responseMessage = response.data.choices[0].message.content;
+          let functionCall = response.data.choices[0].message.function_call;
+          message.channel.send(responseMessage);
 
-        if (functionCall) {
-          let availableFunctions = {
-            checkForAttacks: this.checkForAttacks(),
-          };
+          if (functionCall) {
+            let availableFunctions = {
+              checkForAttacks: this.checkForAttacks(),
+            };
 
-          let functionName = functionCall.name;
-          availableFunctions[functionName];
+            let functionName = functionCall.name;
+            availableFunctions[functionName];
+          }
+        } catch {
+          console.log("Error");
         }
       }
     });
