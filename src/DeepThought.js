@@ -68,7 +68,7 @@ class DeepThought {
 
         try {
           let response = await this.openAI.createChatCompletion({
-            model: "gpt-3.5-turbo",
+            model: "gpt-3.5-turbo-0613",
             messages: this.memory,
             functions: functions,
             function_call: "auto",
