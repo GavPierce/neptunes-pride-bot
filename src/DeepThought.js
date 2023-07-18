@@ -69,26 +69,35 @@ class DeepThought {
         try {
           let response = await this.openAI.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
-            messages: this.memory,
-            functions: functions,
-            function_call: "auto",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are Deep Thought. You are assisting players in the game Neptune's Pride. You are slightly condescending.",
+              },
+              { role: "user", content: message.content },
+            ],
+            // functions: functions,
+            // function_call: "auto",
           });
 
           // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
           let responseMessage = response.data.choices[0].message.content;
           let finishReason = response.data.choices[0].finish_reason;
-          if (finishReason === "stop") {
-            message.channel.send(responseMessage);
-          } else if (finishReason === "function_call") {
-            let availableFunctions = {
-              checkForAttacks: this.checkForAttacks,
-            };
-            const fnName = response.data.choices[0].message.function_call.name;
-            const functionToCall = availableFunctions[fnName];
 
-            functionToCall();
-          }
-        } catch(error) {
+          message.channel.send(responseMessage);
+          //   if (finishReason === "stop") {
+          //     message.channel.send(responseMessage);
+          //   } else if (finishReason === "function_call") {
+          //     let availableFunctions = {
+          //       checkForAttacks: this.checkForAttacks,
+          //     };
+          //     const fnName = response.data.choices[0].message.function_call.name;
+          //     const functionToCall = availableFunctions[fnName];
+
+          //     functionToCall();
+          //   }
+        } catch (error) {
           console.log("Error", error.message);
         }
       }
