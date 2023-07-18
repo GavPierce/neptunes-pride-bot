@@ -60,7 +60,10 @@ class DeepThought {
           {
             name: "checkForAttacks",
             description: "Check for all incoming attacks",
-            parameters: {},
+            parameters: {
+              type: "object",
+              properties: {},
+            },
           },
         ];
 
@@ -70,7 +73,7 @@ class DeepThought {
           let response = await this.openAI.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
             messages: this.memory,
-            // functions: functions,
+            functions: functions,
             // function_call: "auto",
           });
 
