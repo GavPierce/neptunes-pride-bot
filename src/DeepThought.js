@@ -5,6 +5,7 @@ const schedule = require("node-schedule");
 class DeepThought {
   constructor(players, openAI) {
     this.players = players;
+    console.log("players", players.length, this.players.length);
     this.openAI = openAI;
     this.discordClient = new Client({
       intents: [
