@@ -65,7 +65,7 @@ class DeepThought {
 
         this.memory.push({ role: "user", content: message.content });
 
-        let response = await this.openAI.ChatCompletion.create({
+        let response = await this.openAI.createChatCompletion({
           model: "gpt-3.5-turbo",
           messages: this.memory,
           functions: functions,
