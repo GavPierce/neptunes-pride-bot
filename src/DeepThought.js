@@ -1,5 +1,5 @@
 const { Client, Events, GatewayIntentBits } = require("discord.js");
-const discordAlert = require("./discordMessages");
+const discordAlert = require("../discordMessages");
 const schedule = require("node-schedule");
 
 class DeepThought {
