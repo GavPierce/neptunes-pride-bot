@@ -89,7 +89,7 @@ class DeepThought {
             functionToCall();
           }
         } catch(error) {
-          console.log("Error", error);
+          console.log("Error", error.message);
         }
       }
     });
