@@ -92,7 +92,7 @@ class DeepThought {
             const fnName = responseMessage.function_call.name;
             const functionToCall = availableFunctions[fnName];
 
-            functionToCall();
+            awaitfunctionToCall();
           }
         } catch (error) {
           console.log("Error", error.message);
@@ -100,7 +100,7 @@ class DeepThought {
       }
     });
   }
-  async checkForAttacks() {
+  checkForAttacks() {
     console.log(this.players.length);
     // for (const player of this.players) {
     //   const channel = this.discordClient.channels.cache.get(
