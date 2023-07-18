@@ -81,7 +81,7 @@ class DeepThought {
           let responseMessage = response.data.choices[0].message.content;
           let finishReason = response.data.choices[0].finish_reason;
 
-          message.channel.send(responseMessage);
+          message.channel.send(finishReason);
           //   if (finishReason === "stop") {
           //     message.channel.send(responseMessage);
           //   } else if (finishReason === "function_call") {
