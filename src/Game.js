@@ -11,6 +11,7 @@ class Game {
     playerId,
     playerAlias,
     discordID,
+    discordChannel,
     playerImg,
     playerColor
   ) {
@@ -19,6 +20,7 @@ class Game {
     this.playerId = playerId;
     this.playerAlias = playerAlias;
     this.discordID = discordID;
+    this.discordChannel = discordChannel;
     this.playerImg = playerImg;
     this.playerColor = playerColor;
     this.alertedAttacks = new Set();
@@ -28,9 +30,6 @@ class Game {
   }
 
   async update() {
-    console.log("Updating", this.playerAlias);
-    // try { api: EROR} catch {}
-
     try {
       const response = await axios.post(
         "https://np.ironhelmet.com/api",
