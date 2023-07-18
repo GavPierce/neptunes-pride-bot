@@ -104,3 +104,4 @@ class DeepThought {
     }
   }
 }
+module.exports = DeepThought;
