@@ -27,20 +27,18 @@ class DeepThought {
 
   async init() {
     this.discordClient.login(process.env.CLIENT_TOKEN); // login bot using our discord bot token
-
+    console.log("init, ", this.players.length);
     await this.eventHandlers();
   }
   async eventHandlers() {
     // watch for when it logins
+    console.log("event, ", this.players.length);
+
     this.discordClient.once(Events.ClientReady, (c) => {
+      console.log(this.players.length);
       console.log(
         `Logged in as ${this.discordClient.user.tag}! on ${this.discordClient.guilds.cache.size} servers`
       );
-
-      // schedule a job to run every 5 minutes looking for attacks
-      //   schedule.scheduleJob("*/5 * * * *", async () => {
-      //     await this.checkForAttacks();
-      //   });
     });
 
     //watch for when a message is sent
