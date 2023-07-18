@@ -21,9 +21,12 @@ const games = playerConfigs.map(
       config.playerColor
     )
 );
+async function initializeDeepThought() {
+  const deepThought = new DeepThought(games, openai);
+  await deepThought.init();
+}
 
-let deepThoughtBot = new DeepThought(games, openai);
-await deepThoughtBot.init();
+initializeDeepThought();
 // client.on("messageCreate", async (message) => {
 
 //   const channel = message.channel;
