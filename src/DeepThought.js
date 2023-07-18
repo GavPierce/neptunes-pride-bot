@@ -101,22 +101,23 @@ class DeepThought {
     });
   }
   async checkForAttacks() {
-    for (const player of this.players) {
-      const channel = this.discordClient.channels.cache.get(
-        player.discordChannel
-      );
+    console.log(this.players.length);
+    // for (const player of this.players) {
+    //   const channel = this.discordClient.channels.cache.get(
+    //     player.discordChannel
+    //   );
 
-      await player.update();
-      const attacks = player.checkForAttacks();
+    //   await player.update();
+    //   const attacks = player.checkForAttacks();
 
-      for (const attack of attacks) {
-        if (player.alertedAttacks.has(attack.attackId)) continue;
+    //   for (const attack of attacks) {
+    //     if (player.alertedAttacks.has(attack.attackId)) continue;
 
-        //channel.send(`<@${game.discordID}>`);
-        channel.send({ embeds: [discordAlert.attackMessage(attack, player)] });
-        player.alertedAttacks.add(attack.attackId);
-      }
-    }
+    //     //channel.send(`<@${game.discordID}>`);
+    //     channel.send({ embeds: [discordAlert.attackMessage(attack, player)] });
+    //     player.alertedAttacks.add(attack.attackId);
+    //   }
+    // }
   }
 }
 module.exports = DeepThought;
