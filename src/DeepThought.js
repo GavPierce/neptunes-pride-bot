@@ -101,20 +101,20 @@ class DeepThought {
     });
   }
   async checkForAttacks() {
-    for (const game of this.games) {
+    for (const player of this.players) {
       const channel = this.discordClient.channels.cache.get(
-        game.discordChannel
+        player.discordChannel
       );
 
-      await game.update();
-      const attacks = game.checkForAttacks();
+      await player.update();
+      const attacks = player.checkForAttacks();
 
       for (const attack of attacks) {
-        if (game.alertedAttacks.has(attack.attackId)) continue;
+        if (player.alertedAttacks.has(attack.attackId)) continue;
 
         //channel.send(`<@${game.discordID}>`);
-        channel.send({ embeds: [discordAlert.attackMessage(attack, game)] });
-        game.alertedAttacks.add(attack.attackId);
+        channel.send({ embeds: [discordAlert.attackMessage(attack, player)] });
+        player.alertedAttacks.add(attack.attackId);
       }
     }
   }
