@@ -87,7 +87,7 @@ class DeepThought {
 
           if (finishReason === "function_call") {
             let availableFunctions = {
-              checkForAttacks: this.checkForAttacks(),
+              checkForAttacks: this.checkForAttacks,
             };
             const fnName = responseMessage.function_call.name;
             const functionToCall = availableFunctions[fnName];
