@@ -91,7 +91,7 @@ class DeepThought {
             const fnName = responseMessage.function_call.name;
             const functionToCall = availableFunctions[fnName];
 
-            functionToCall();
+            functionToCall().call(this);
           }
         } catch (error) {
           console.log("Error", error.message);
