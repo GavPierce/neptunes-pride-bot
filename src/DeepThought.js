@@ -78,22 +78,22 @@ class DeepThought {
           });
 
           // basically here we've sent a message to chatgpt and it has responded with if it thinks we should call a function
-          let responseMessage = response.data.choices[0].message.content;
+          let responseMessage = response.data.choices[0].message;
           let finishReason = response.data.choices[0].finish_reason;
 
-          console.log("response", response.data.choices[0]);
-          message.channel.send("Logged response");
-          //   if (finishReason === "stop") {
-          //     message.channel.send(responseMessage);
-          //   } else if (finishReason === "function_call") {
-          //     let availableFunctions = {
-          //       checkForAttacks: this.checkForAttacks,
-          //     };
-          //     const fnName = response.data.choices[0].message.function_call.name;
-          //     const functionToCall = availableFunctions[fnName];
+          if (responseMessage.content) {
+            message.channel.send(responseMessage.content);
+          }
 
-          //     functionToCall();
-          //   }
+          if (finishReason === "function_call") {
+            let availableFunctions = {
+              checkForAttacks: this.checkForAttacks,
+            };
+            const fnName = responseMessage.function_call.name;
+            const functionToCall = availableFunctions[fnName];
+
+            functionToCall();
+          }
         } catch (error) {
           console.log("Error", error.message);
         }
