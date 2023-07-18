@@ -39,6 +39,10 @@ class DeepThought {
       console.log(
         `Logged in as ${this.discordClient.user.tag}! on ${this.discordClient.guilds.cache.size} servers`
       );
+
+      schedule.scheduleJob("*/5 * * * *", async () => {
+        await this.checkForAttacks();
+      });
     });
 
     //watch for when a message is sent
@@ -112,7 +116,7 @@ class DeepThought {
       for (const attack of attacks) {
         if (player.alertedAttacks.has(attack.attackId)) continue;
 
-        //channel.send(`<@${game.discordID}>`);
+        channel.send(`<@${game.discordID}>`);
         channel.send({ embeds: [discordAlert.attackMessage(attack, player)] });
         player.alertedAttacks.add(attack.attackId);
       }
