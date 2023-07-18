@@ -69,14 +69,7 @@ class DeepThought {
         try {
           let response = await this.openAI.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
-            messages: [
-              {
-                role: "system",
-                content:
-                  "You are Deep Thought. You are assisting players in the game Neptune's Pride. You are slightly condescending.",
-              },
-              { role: "user", content: message.content },
-            ],
+            messages: this.memory,
             // functions: functions,
             // function_call: "auto",
           });
