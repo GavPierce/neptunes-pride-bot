@@ -98,6 +98,7 @@ this.stars[starId].calcTotalShips(this.fleets);
               defenderAvatar: `https://np.ironhelmet.com/images/avatars/160/${this.players[starOwner].avatar}.jpg`,
               defenderWeapons: this.players[starOwner].tech.weapons.level,
               defenderShips: this.players[starOwner].total_strength,
+              defenderPlanetShips:this.stars[targetStarId].totalShips,
               eta: fleet.getEta(this.stars[targetStarId]),
             });
           }
