@@ -7,7 +7,7 @@ class Star {
  
   calcTotalShips(fleets) {
     let totalShips = this.st;
-    for (let fleet of fleets){
+    for (let fleet in fleets){
       if (fleets[fleet].x === this.x 
           && fleets[fleet].y == this.y) {
            totalShips += fleets[fleet].st;
