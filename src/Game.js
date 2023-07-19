@@ -46,10 +46,7 @@ class Game {
       );
       const data = response.data;
 
-      for (const starId in data.scanning_data.stars) {
-        const starData = data.scanning_data.stars[starId];
-        this.stars[starId] = new Star(starData);
-      }
+      
 
       for (const fleetId in data.scanning_data.fleets) {
         const fleetData = data.scanning_data.fleets[fleetId];
@@ -57,7 +54,12 @@ class Game {
 
         this.fleets[fleetId] = new Fleet(fleetData);
       }
-
+    for (const starId in data.scanning_data.stars) {
+        const starData = data.scanning_data.stars[starId];
+        this.stars[starId] = new Star(starData);
+//set stars total ships. 
+this.stars[starId].calcTotalShips(this.fleets);
+      }
       for (const playerId in data.scanning_data.players) {
         const playerData = data.scanning_data.players[playerId];
         this.players[playerId] = new Player(playerData);
