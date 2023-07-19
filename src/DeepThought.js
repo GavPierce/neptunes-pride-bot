@@ -32,10 +32,10 @@ class DeepThought {
   }
   async eventHandlers() {
     // watch for when it logins
-    console.log("event, ", this.players.length);
+  
 
     this.discordClient.once(Events.ClientReady, (c) => {
-      console.log(this.players.length);
+    
       console.log(
         `Logged in as ${this.discordClient.user.tag}! on ${this.discordClient.guilds.cache.size} servers`
       );
@@ -104,7 +104,7 @@ class DeepThought {
     });
   }
   async checkForAttacks() {
-    // console log the players array length
+   
     for (const player of this.players) {
       const channel = this.discordClient.channels.cache.get(
         player.discordChannel
@@ -115,7 +115,7 @@ class DeepThought {
       for (const attack of attacks) {
         if (player.alertedAttacks.has(attack.attackId)) continue;
 
-        channel.send(`<@${game.discordID}>`);
+        channel.send(`<@${player.discordID}>`);
         channel.send({ embeds: [discordAlert.attackMessage(attack, player)] });
         player.alertedAttacks.add(attack.attackId);
       }
