@@ -8,7 +8,7 @@ const discordAlerts = {
       color: parseInt(playerData.playerColor),
       title: "Attack Incoming!",
       url: "https://np.ironhelmet.com/game/5669830163955712",
-      description: `Your Star ${attackData.starName} is under attack!`,
+      description: `Your Star ${attackData.starName} is under attack! ${attack data.defenderStarShips} ships on star`,
       thumbnail: {
         url: attackData.defenderAvatar,
       },
